@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Outfit:wght@100..900&family=Rowdies:wght@300;400;700&display=swap');
+
+:root {
+	--color-primary-light: #a4e87d;
+	--color-primary: #61d49c;
+	--color-primary-dark: #08bba6;
+
+	--color-grey-light: #e9e5e5;
+	--color-grey: #c1bbbb;
+	--color-grey-dark: #8f8f8f;
+
+	--color-white: #fff;
+	--color-black: #000;
+}
+
+body {
+	background-color: var(--color-white);
+	font-family: Outfit;
+}
+
+/* SIGNUP STYLES */
+.signup {
+	width: 55%;
+	margin: 0 auto;
+}
+
+.signup h3 {
+	text-align: center;
+}
+.signup form {
+	width: 100%;
+}
+.signup form input {
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid var(--color-primary-dark);
+	padding: 10px;
+	font-size: 14px;
+	margin-top: 5px;
+	outline: none;
+}
+
+.signup form input::placeholder {
+	color: var(--color-grey);
+}
+.signup form button {
+	width: 100%;
+	padding: 10px;
+	font-size: 14px;
+	margin-top: 5px;
+	border: none;
+	background-color: var(--color-primary-dark);
+	color: var(--color-white);
+}
+.signup p.text {
+	text-align: center;
+}
+.signup p.text a{
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+.signup p.other {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+}
+
+.signup p.other span {
+	border-bottom: 1px solid var(--color-grey-dark);
+	flex: 1;
+}
+.secondary-button {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	gap: 10px;
+	margin-top: 5px;
+	background-color: var(--color-white);
+	border: 1px solid var(--color-primary-dark);
+}
+.secondary-button img {
+	height: 20px;
+	width: 20px;
+	object-fit: cover;
+}
+input,
+button {
+	border-radius: 5px;
+}
