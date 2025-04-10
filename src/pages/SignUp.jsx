@@ -1,19 +1,56 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../AppProvider';
 
 function SignUp() {
+	const [formData, setFormData] = useState({ email: '', password: '' });
+	const navigate = useNavigate();
+	const context = useContext(AppContext);
+
+	const handleSignUp = (e) => {
+		e.preventDefault();
+
+		//Ensure that password is 12 characters
+		const passLength = formData.password.length;
+		if (passLength < 8) {
+			alert('Password should be 8 or more characters!!');
+			return;
+		}
+
+		//Store user details to local Storage
+		const data = JSON.stringify(formData);
+		localStorage.setItem('user', data);
+
+		context.getUserDetails();
+		navigate('/chat');
+	};
 	return (
 		<div className="signup">
-			<h3>Create an account</h3>
-			<form action="">
-				<input type="email" placeholder="Enter your email" />
-				<input type="password" placeholder="Enter your password" />
-				<button type="submit">Continue</button>
+			<h1>Create an account</h1>
+			<form onSubmit={handleSignUp}>
+				<input
+					type="email"
+					required
+					value={formData.email}
+					onChange={(e) =>
+						setFormData((prev) => ({ ...prev, email: e.target.value }))
+					}
+					placeholder="Enter your email"
+				/>
+				<input
+					type="password"
+					value={formData.password}
+					onChange={(e) => {
+						setFormData((prev) => ({ ...prev, password: e.target.value }));
+					}}
+					placeholder="Enter your password"
+				/>
+				<button>Continue</button>
 			</form>
-			<p className='text'>
+			<p className="text">
 				Already have an account? <Link to="/login">Login</Link>
 			</p>
-			<p className='other'>
+			<p className="other">
 				<span></span>
 				OR
 				<span></span>
