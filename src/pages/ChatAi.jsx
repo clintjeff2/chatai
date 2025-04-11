@@ -1,42 +1,69 @@
 import React, { useState, useContext } from 'react';
 import { AppContext } from '../AppProvider';
+import { GoogleGenAI } from '@google/genai';
+import Markdown from 'react-markdown';
+
+// AIzaSyCS1kPJH4dDDR9VnZUbcy7OCqzmmW60N1g
+
+const ai = new GoogleGenAI({
+	apiKey: 'AIzaSyCS1kPJH4dDDR9VnZUbcy7OCqzmmW60N1g',
+});
 
 function ChatAi() {
 	const [hasClicked, setHasClicked] = useState(false);
+	const [aiResponse, setAiResponse] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [question, setQuestion] = useState('');
 	const context = useContext(AppContext);
+
+	const generateAiContent = async () => {
+		if (question === '') {
+			alert('Please enter a question.');
+			return;
+		}
+		setHasClicked(true);
+		setIsLoading(true);
+		const response = await ai.models.generateContent({
+			model: 'gemini-2.0-flash',
+			contents: question,
+		});
+		setAiResponse(response.text);
+		setIsLoading(false);
+	};
+
 	return (
 		<div className="chat">
 			<header className="chat-header">
 				<img src="/chatai-logo.png" alt="Logo Pic" />
 				<div className="person">
-					<span className="name">{context.user.email.split('@')[0]}</span>
-					<span className="logo">{context.user.email.split('@')[0][0]}</span>
+					<span className="name">{context.user?.email.split('@')[0]}</span>
+					<span className="logo">{context.user?.email.split('@')[0][0]}</span>
 				</div>
 			</header>
 			<main className="ai-section">
 				<div className="init">
 					{hasClicked && (
 						<div className="ai-response">
-							ere cupiditate reprehenderit ut doloribus. Eius consequuntur alias
-							perferendis sint reiciendis ullam deleniti excepturi nihil amet
-							ipsum rem hic laudantium odio soluta aliquid mollitia, distinctio
-							inventore sequi maiores est dignissimos voluptatibus veritatis
-							deserunt? Numquam reiciendis asperiores ipsum ducimus qui? Cumque
-							ad doloremque inventore beatae voluptatibus quasi impedit laborum.
-							Distinctio at nisi velit. Mollitia, voluptates voluptatum officiis
-							sint fugiat, rerum necessitatibus ducimus debitis, laboriosam sed
-							cumque doloremque harum nesciunt possimus asperiores. Quod, rem
-							blanditiis sit laboriosam quia a laudantium consequuntur animi
-							repellat aspernatur alias quas. Facilis ullam, eius aliquid
-							suscipit placeat quasi sequi. Ab non nihil necessitatibus tempora
-							debitis, alias est modi fuga explicabo minimam eum odit odio est!
-							Dolorum magni ratione excepturi ad nesciunt.
+							{isLoading === false && <Markdown>{aiResponse}</Markdown>}
+							{isLoading && (
+								<div
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+										width: '100%',
+										height: '100%',
+									}}
+								>
+									<img src="/loading-gif-loading.gif" alt="Loading" />
+								</div>
+							)}
 						</div>
 					)}
 					{hasClicked !== true && (
 						<h2>
 							How may I be of help,{' '}
-							<span>{context.user.email.split('@')[0]} </span>?
+							<span>{context.user?.email.split('@')[0]} </span>?
 						</h2>
 					)}
 					<form action="">
@@ -45,11 +72,13 @@ function ChatAi() {
 							placeholder="Ask anything..."
 							name=""
 							id=""
+							value={question}
+							onChange={(e) => setQuestion(e.target.value)}
 						></textarea>
 						<button
 							onClick={(e) => {
 								e.preventDefault();
-								setHasClicked(true);
+								generateAiContent();
 							}}
 						>
 							<img src="/arrow-up.png" alt="" />

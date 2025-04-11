@@ -10,7 +10,7 @@ function SignUp() {
 	const handleSignUp = (e) => {
 		e.preventDefault();
 
-		//Ensure that password is 12 characters
+		//Ensure that password is 8 characters
 		const passLength = formData.password.length;
 		if (passLength < 8) {
 			alert('Password should be 8 or more characters!!');
